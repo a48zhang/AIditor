@@ -13,6 +13,28 @@ AIditor is a Cloudflare Workers-based backend API for an automated new media art
 https://your-worker.workers.dev
 ```
 
+## Authentication
+
+All API endpoints (except the root health check) require authentication via an API key.
+
+**Header Required:**
+```
+X-API-Key: your-api-key-here
+```
+
+**Example:**
+```bash
+curl -H "X-API-Key: your-secret-key" https://your-worker.workers.dev/api/materials
+```
+
+If the API key is missing or invalid, you will receive a 401 Unauthorized response:
+```json
+{
+  "success": false,
+  "error": "Unauthorized - Invalid or missing API key"
+}
+```
+
 ## API Endpoints
 
 ### Material Pool (素材池) API

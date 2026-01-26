@@ -44,6 +44,9 @@ AIditor is an automated new media article creation system with a scalable backen
 # Install dependencies
 npm install
 
+# Create .dev.vars file with your API key for local development
+echo "API_KEY=your-local-dev-key" > .dev.vars
+
 # Run database migrations locally
 npm run db:migrate
 
@@ -59,11 +62,22 @@ wrangler d1 create aiditor-db
 
 # Update wrangler.toml with the database ID from above command
 
+# Set API key secret
+wrangler secret put API_KEY
+
 # Run migrations on production
 npm run db:migrate:prod
 
 # Deploy to Cloudflare Workers
 npm run deploy
+```
+
+## Authentication
+
+All API endpoints (except the root `/` health check) require authentication via the `X-API-Key` header:
+
+```bash
+curl -H "X-API-Key: your-api-key" https://your-api.workers.dev/api/materials
 ```
 
 ## API Documentation

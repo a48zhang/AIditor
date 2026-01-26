@@ -5,11 +5,15 @@ import { cors } from 'hono/cors';
 import type { Env } from './types';
 import materials from './routes/materials';
 import toPublish from './routes/toPublish';
+import { authMiddleware } from './middleware/auth';
 
 const app = new Hono<{ Bindings: Env }>();
 
 // CORS middleware
 app.use('/*', cors());
+
+// Authentication middleware
+app.use('/*', authMiddleware);
 
 // Health check
 app.get('/', (c) => {

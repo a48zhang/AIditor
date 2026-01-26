@@ -26,10 +26,8 @@ CREATE TABLE IF NOT EXISTS to_publish (
     review_status TEXT DEFAULT 'pending',
     material_id TEXT,
     created_at INTEGER NOT NULL,
-    updated_at INTEGER NOT NULL,
-    FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE SET NULL
+    updated_at INTEGER NOT NULL
 );
 
 CREATE INDEX idx_to_publish_review_status ON to_publish(review_status);
 CREATE INDEX idx_to_publish_platform ON to_publish(platform);
-CREATE INDEX idx_to_publish_material_id ON to_publish(material_id);

@@ -49,13 +49,32 @@ name = "aiditor"
 main = "src/index.ts"
 compatibility_date = "2024-01-01"
 
+[vars]
+# API_KEY will be set via wrangler secret put API_KEY for production
+
 [[ d1_databases ]]
 binding = "DB"
 database_name = "aiditor-db"
 database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"  # Replace with your database_id
 ```
 
-## Step 5: Run Database Migrations
+## Step 5: Set API Key Secret
+
+Set your API key as a secret (recommended for production):
+
+```bash
+npx wrangler secret put API_KEY
+```
+
+When prompted, enter your secure API key. This key will be required in the `X-API-Key` header for all API requests.
+
+For local development, create a `.dev.vars` file:
+
+```bash
+echo "API_KEY=your-local-dev-key" > .dev.vars
+```
+
+## Step 6: Run Database Migrations
 
 Apply the database migrations to create the necessary tables:
 
@@ -65,7 +84,7 @@ npx wrangler d1 migrations apply aiditor-db
 
 When prompted, confirm with `y` to apply the migration.
 
-## Step 6: Deploy to Cloudflare Workers
+## Step 7: Deploy to Cloudflare Workers
 
 ```bash
 npm run deploy
@@ -84,22 +103,18 @@ After successful deployment, you'll see output like:
 🌎 https://aiditor.your-subdomain.workers.dev
 ```
 
-## Step 7: Test Your Deployment
+## Step 8: Test Your Deployment
 
-You can test your deployed API using the provided test script:
-
-```bash
-./test/test-api.sh https://aiditor.your-subdomain.workers.dev
-```
-
-Or use curl to test individual endpoints:
+Test your deployed API with curl:
 
 ```bash
-# Health check
+# Health check (no auth required)
 curl https://aiditor.your-subdomain.workers.dev/
 
-# Create a material
+# Create a material (with authentication)
 curl -X POST https://aiditor.your-subdomain.workers.dev/api/materials \
+curl -X POST https://aiditor.your-subdomain.workers.dev/api/materials \
+  -H "X-API-Key: your-api-key" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "My First Article",
@@ -115,6 +130,9 @@ curl -X POST https://aiditor.your-subdomain.workers.dev/api/materials \
 To run the API locally for development:
 
 ```bash
+# Create .dev.vars file with your API key
+echo "API_KEY=your-local-dev-key" > .dev.vars
+
 # Run local database migrations
 npm run db:migrate
 
@@ -124,10 +142,10 @@ npm run dev
 
 The local server will be available at `http://localhost:8787`
 
-You can then test locally using:
+You can then test locally using curl with your API key:
 
 ```bash
-./test/test-api.sh http://localhost:8787
+curl -H "X-API-Key: your-local-dev-key" http://localhost:8787/api/materials
 ```
 
 ## Custom Domain (Optional)

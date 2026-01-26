@@ -66,6 +66,9 @@ export async function listMaterials(
   db: D1Database,
   filters: MaterialFilters = {}
 ): Promise<Material[]> {
+  // WARNING: Potential pagination risk - this function returns all matching results.
+  // In the future, consider implementing cursor-based pagination or enforcing a maximum limit
+  // to prevent performance issues when dealing with large datasets.
   let query = 'SELECT * FROM materials WHERE 1=1';
   const bindings: any[] = [];
 

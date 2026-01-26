@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS to_publish (
     material_id TEXT,
     created_at INTEGER NOT NULL,
     updated_at INTEGER NOT NULL,
-    FOREIGN KEY (material_id) REFERENCES materials(id)
+    FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE SET NULL
 );
 
 CREATE INDEX idx_to_publish_review_status ON to_publish(review_status);

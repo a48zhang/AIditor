@@ -1,0 +1,29 @@
+{
+  "name": "aiditor",
+  "version": "1.0.0",
+  "description": "AI-based news editor backend API",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "vitest",
+    "db:migrate": "wrangler d1 migrations apply aiditor-db --local",
+    "db:migrate:prod": "wrangler d1 migrations apply aiditor-db"
+  },
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "api"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241127.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.0.4",
+    "wrangler": "^3.78.0"
+  },
+  "dependencies": {
+    "hono": "^4.0.0"
+  }
+}

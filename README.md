@@ -1,2 +1,7 @@
 # AIditor
-AI-base news editor
+
+News editor agent built on Cloudflare Workers
+
+## License
+
+MIT
